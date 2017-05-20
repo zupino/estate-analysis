@@ -1,0 +1,3 @@
+Assuming file1 and file 2 are sorted, this command outputs only the lines from <file2> that where added or changes compared to <file1>
+
+clear; diff --unchanged-line-format= --old-line-format= --new-line-format='%L' <file1> <file2> | uniq -u

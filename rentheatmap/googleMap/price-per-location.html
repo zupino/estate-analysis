@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+	<style>
+
+	.axis {
+	  font: 10px sans-serif;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+
+	</style>
+</head>
+
+<body>
+	
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<p id="currentFile"></p>
+<script>
+var files = [
+"20160417_priceByLocation.csv",
+"20160420_priceByLocation.csv",
+"20160421_priceByLocation.csv",
+"20160422_priceByLocation.csv",
+"20160423_priceByLocation.csv",
+"20160424_priceByLocation.csv",
+"20160425_priceByLocation.csv",
+"20160508_priceByLocation.csv",
+"20160509_priceByLocation.csv",
+"20160510_priceByLocation.csv",
+"20160511_priceByLocation.csv",
+"20160512_priceByLocation.csv",
+"20160513_priceByLocation.csv",
+"20160514_priceByLocation.csv",
+"20160515_priceByLocation.csv",
+"20160516_priceByLocation.csv",
+"20160517_priceByLocation.csv",
+"20160518_priceByLocation.csv",
+"20160519_priceByLocation.csv",
+"20160520_priceByLocation.csv",
+"20160521_priceByLocation.csv",
+"20160522_priceByLocation.csv",
+"20160523_priceByLocation.csv",
+"20160524_priceByLocation.csv",
+"20160525_priceByLocation.csv",
+"20160526_priceByLocation.csv",
+"20160527_priceByLocation.csv",
+"20160528_priceByLocation.csv",
+"20160529_priceByLocation.csv",
+"20160530_priceByLocation.csv",
+"20160531_priceByLocation.csv",
+"20160601_priceByLocation.csv",
+"20160602_priceByLocation.csv",
+"20160603_priceByLocation.csv",
+"20160604_priceByLocation.csv",
+"20160605_priceByLocation.csv",
+"20160606_priceByLocation.csv",
+"20160607_priceByLocation.csv",
+"20160608_priceByLocation.csv",
+"20160609_priceByLocation.csv",
+"20160610_priceByLocation.csv",
+"20160611_priceByLocation.csv",
+"20160612_priceByLocation.csv",
+"20160613_priceByLocation.csv",
+"20160614_priceByLocation.csv",
+"20160615_priceByLocation.csv",
+"20160616_priceByLocation.csv",
+"20160617_priceByLocation.csv",
+"20160618_priceByLocation.csv",
+"20160619_priceByLocation.csv",
+"20160620_priceByLocation.csv",
+"20160621_priceByLocation.csv",
+"20160622_priceByLocation.csv",
+"20160623_priceByLocation.csv",
+"20160624_priceByLocation.csv",
+"20160625_priceByLocation.csv",
+"20160626_priceByLocation.csv",
+"20160627_priceByLocation.csv",
+"20160628_priceByLocation.csv",
+"20160629_priceByLocation.csv",
+"20160630_priceByLocation.csv",
+"20160701_priceByLocation.csv",
+"20160702_priceByLocation.csv",
+"20160703_priceByLocation.csv",
+"20160704_priceByLocation.csv",
+"20160705_priceByLocation.csv",
+"20160706_priceByLocation.csv",
+"20160707_priceByLocation.csv",
+"20160711_priceByLocation.csv",
+"20160712_priceByLocation.csv",
+"20160713_priceByLocation.csv",
+"20160714_priceByLocation.csv",
+"20160715_priceByLocation.csv",
+"20160716_priceByLocation.csv",
+"20160717_priceByLocation.csv",
+"20160718_priceByLocation.csv",
+"20160719_priceByLocation.csv",
+"20160720_priceByLocation.csv",
+"20160721_priceByLocation.csv",
+"20160722_priceByLocation.csv",
+"20160723_priceByLocation.csv",
+"20160724_priceByLocation.csv",
+"20160725_priceByLocation.csv",
+"20160726_priceByLocation.csv",
+"20160728_priceByLocation.csv",
+"20160729_priceByLocation.csv",
+"20160813_priceByLocation.csv",
+"20160814_priceByLocation.csv",
+"20160816_priceByLocation.csv",
+"20160817_priceByLocation.csv",
+"20160825_priceByLocation.csv",
+"20160826_priceByLocation.csv",
+"20160827_priceByLocation.csv",
+"20160828_priceByLocation.csv",
+"20160829_priceByLocation.csv",
+"20160831_priceByLocation.csv",
+"20160902_priceByLocation.csv",
+"20160903_priceByLocation.csv",
+"20160904_priceByLocation.csv",
+"20160907_priceByLocation.csv",
+"20160909_priceByLocation.csv",
+"20160910_priceByLocation.csv",
+"20160911_priceByLocation.csv",
+"20160918_priceByLocation.csv",
+"20160919_priceByLocation.csv",
+"20161029_priceByLocation.csv",
+"20161030_priceByLocation.csv",
+"20161031_priceByLocation.csv",
+"20161104_priceByLocation.csv",
+"20161106_priceByLocation.csv",
+"20161107_priceByLocation.csv",
+"20161108_priceByLocation.csv",
+"20161109_priceByLocation.csv",
+"20161110_priceByLocation.csv",
+"20161111_priceByLocation.csv",
+"20161112_priceByLocation.csv",
+"20161113_priceByLocation.csv",
+"20161114_priceByLocation.csv",
+"20161115_priceByLocation.csv",
+"20161116_priceByLocation.csv",
+"20161117_priceByLocation.csv",
+"20161118_priceByLocation.csv",
+"20161119_priceByLocation.csv",
+"20161120_priceByLocation.csv",
+"20161121_priceByLocation.csv",
+"20161122_priceByLocation.csv",
+"20161123_priceByLocation.csv",
+"20161124_priceByLocation.csv",
+"20161125_priceByLocation.csv",
+"20161126_priceByLocation.csv",
+"20161127_priceByLocation.csv",
+"20161128_priceByLocation.csv",
+"20161129_priceByLocation.csv",
+"20161130_priceByLocation.csv",
+"20161201_priceByLocation.csv",
+"20161203_priceByLocation.csv",
+"20161204_priceByLocation.csv",
+"20161205_priceByLocation.csv",
+"20161208_priceByLocation.csv",
+"20161210_priceByLocation.csv",
+"20161211_priceByLocation.csv",
+"20161212_priceByLocation.csv",
+"20161213_priceByLocation.csv",
+"20161214_priceByLocation.csv",
+"20161215_priceByLocation.csv",
+"20161216_priceByLocation.csv",
+"20161217_priceByLocation.csv",
+"20161218_priceByLocation.csv",
+"20161219_priceByLocation.csv",
+"20161220_priceByLocation.csv",
+"20161222_priceByLocation.csv",
+"20161223_priceByLocation.csv",
+"20161224_priceByLocation.csv",
+"20161225_priceByLocation.csv",
+"20161226_priceByLocation.csv",
+"20161227_priceByLocation.csv",
+"20161228_priceByLocation.csv",
+"20161229_priceByLocation.csv",
+"20161230_priceByLocation.csv",
+"20161231_priceByLocation.csv",
+"20170101_priceByLocation.csv",
+"20170102_priceByLocation.csv",
+"20170103_priceByLocation.csv",
+"20170104_priceByLocation.csv",
+"20170105_priceByLocation.csv",
+"20170106_priceByLocation.csv",
+"20170107_priceByLocation.csv",
+"20170108_priceByLocation.csv",
+"20170109_priceByLocation.csv",
+"20170110_priceByLocation.csv",
+"20170114_priceByLocation.csv",
+"20170115_priceByLocation.csv",
+"20170116_priceByLocation.csv",
+"20170117_priceByLocation.csv",
+"20170118_priceByLocation.csv",
+"20170119_priceByLocation.csv",
+"20170120_priceByLocation.csv",
+"20170121_priceByLocation.csv",
+"20170122_priceByLocation.csv",
+"20170123_priceByLocation.csv",
+"20170124_priceByLocation.csv",
+"20170125_priceByLocation.csv",
+"20170126_priceByLocation.csv",
+"20170127_priceByLocation.csv",
+"20170128_priceByLocation.csv",
+"20170129_priceByLocation.csv",
+"20170130_priceByLocation.csv",
+"20170131_priceByLocation.csv",
+"20170201_priceByLocation.csv",
+"20170202_priceByLocation.csv",
+"20170203_priceByLocation.csv",
+"20170204_priceByLocation.csv",
+"20170205_priceByLocation.csv",
+"20170206_priceByLocation.csv",
+"20170207_priceByLocation.csv",
+"20170208_priceByLocation.csv",
+"20170209_priceByLocation.csv",
+"20170211_priceByLocation.csv",
+"20170213_priceByLocation.csv",
+"20170214_priceByLocation.csv",
+"20170215_priceByLocation.csv",
+"20170216_priceByLocation.csv",
+"20170217_priceByLocation.csv",
+"20170218_priceByLocation.csv",
+"20170219_priceByLocation.csv",
+"20170220_priceByLocation.csv",
+"20170221_priceByLocation.csv",
+"20170222_priceByLocation.csv",
+"20170223_priceByLocation.csv",
+"20170224_priceByLocation.csv",
+"20170225_priceByLocation.csv",
+"20170226_priceByLocation.csv",
+"20170227_priceByLocation.csv",
+"20170228_priceByLocation.csv",
+"20170301_priceByLocation.csv",
+"20170302_priceByLocation.csv",
+"20170303_priceByLocation.csv",
+"20170304_priceByLocation.csv",
+"20170305_priceByLocation.csv",
+"20170306_priceByLocation.csv",
+"20170307_priceByLocation.csv",
+"20170308_priceByLocation.csv",
+"20170309_priceByLocation.csv",
+"20170310_priceByLocation.csv",
+"20170311_priceByLocation.csv",
+"20170312_priceByLocation.csv",
+"20170313_priceByLocation.csv",
+"20170314_priceByLocation.csv",
+"20170315_priceByLocation.csv",
+"20170316_priceByLocation.csv",
+"20170317_priceByLocation.csv",
+"20170318_priceByLocation.csv",
+"20170319_priceByLocation.csv",
+"20170320_priceByLocation.csv",
+"20170321_priceByLocation.csv",
+"20170322_priceByLocation.csv",
+"20170323_priceByLocation.csv",
+"20170324_priceByLocation.csv",
+"20170325_priceByLocation.csv",
+"20170326_priceByLocation.csv",
+"20170327_priceByLocation.csv",
+"20170328_priceByLocation.csv",
+"20170329_priceByLocation.csv",
+"20170330_priceByLocation.csv",
+"20170331_priceByLocation.csv",
+"20170401_priceByLocation.csv",
+"20170402_priceByLocation.csv",
+"20170403_priceByLocation.csv",
+"20170404_priceByLocation.csv",
+"20170405_priceByLocation.csv",
+"20170406_priceByLocation.csv",
+"20170407_priceByLocation.csv",
+"20170408_priceByLocation.csv",
+"20170409_priceByLocation.csv",
+"20170410_priceByLocation.csv",
+"20170411_priceByLocation.csv",
+"20170412_priceByLocation.csv",
+"20170413_priceByLocation.csv",
+"20170414_priceByLocation.csv",
+"20170415_priceByLocation.csv",
+"20170417_priceByLocation.csv",
+"20170418_priceByLocation.csv",
+"20170419_priceByLocation.csv",
+"20170420_priceByLocation.csv",
+"20170421_priceByLocation.csv",
+"20170422_priceByLocation.csv",
+"20170423_priceByLocation.csv",
+"20170424_priceByLocation.csv",
+"20170425_priceByLocation.csv",
+"20170426_priceByLocation.csv",
+"20170427_priceByLocation.csv",
+"20170428_priceByLocation.csv",
+"20170429_priceByLocation.csv",
+"20170430_priceByLocation.csv",
+"20170501_priceByLocation.csv",
+"20170502_priceByLocation.csv",
+"20170503_priceByLocation.csv",
+"20170504_priceByLocation.csv",
+"20170505_priceByLocation.csv",
+"20170506_priceByLocation.csv",
+"20170507_priceByLocation.csv",
+"20170508_priceByLocation.csv",
+"20170509_priceByLocation.csv",
+"20170510_priceByLocation.csv",
+"20170512_priceByLocation.csv",
+"20170513_priceByLocation.csv",
+"20170514_priceByLocation.csv"
+];
+
+
+var exit = 0;
+var id = setInterval(frame, 100);
+
+var margin = {top: 20, right: 20, bottom: 70, left: 40},
+    width = 600 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+var y = d3.scale.linear().range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10);
+
+// I will first read all CSV and same them in an array of array    
+var allCsv = [];
+
+function readAll() {
+	files.forEach(function(entry) {
+		d3.csv("http://127.0.0.1:8887/dataPrice/" + entry, function(error, data) {
+			
+			allCsv.push( data );
+			console.log( allCsv.length )
+			
+		});
+		
+		
+	});
+}
+
+readAll();
+
+function frame() {
+    if ( exit > 285 ) {
+        clearInterval(id);
+    } else {
+        /* code to change the element style */  
+		exit++
+		d3.select("#currentFile").
+			text(files[exit]);
+		d3.selectAll("svg").remove();
+		var svg = d3.select("body").append("svg")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+		  .append("g")
+			.attr("transform", 
+				  "translate(" + margin.left + "," + margin.top + ")");
+
+		
+		
+		// d3.csv("http://127.0.0.1:8887/dataPrice/" + files[exit], function(error, data) 
+		
+		{
+			
+		data = allCsv[exit];
+		console.log( data )
+		  x.domain(data.map(function(d) { return d.location; }));
+		  y.domain([0, d3.max(data, function(d) { return d.avgPrice; })]);
+
+		  svg.append("g")
+			  .attr("class", "x axis")
+			  .attr("transform", "translate(0," + height + ")")
+			  .call(xAxis)
+			.selectAll("text")
+			  .style("text-anchor", "end")
+			  .attr("dx", "-.8em")
+			  .attr("dy", "-.55em")
+			  .attr("transform", "rotate(-90)" );
+
+		  svg.append("g")
+			  .attr("class", "y axis")
+			  .call(yAxis)
+			.append("text")
+			  .attr("transform", "rotate(-90)")
+			  .attr("y", 6)
+			  .attr("dy", ".71em")
+			  .style("text-anchor", "end")
+			  .text("Value ($)");
+
+		  svg.selectAll("bar")
+			  .data(data)
+			.enter().append("rect")
+			  .style("fill", "steelblue")
+			  .attr("x", function(d) { return x(d.location); })
+			  .attr("width", x.rangeBand())
+			  .attr("y", function(d) { return y(d.avgPrice); })
+			  .attr("height", function(d) { return height - y(d.avgPrice); });
+
+		};
+    }
+}
+
+</script>
+
+</body>
